@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Chế độ Ăn</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Quản lý Chế độ Ăn</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" id="loginBtn">Đăng nhập</a></li>
+                    <li><a href="#" id="registerBtn">Đăng ký</a></li>
+                    <li><a href="#" id="profileBtn" style="display: none;">Hồ sơ</a></li>
+                    <li><a href="#" id="logoutBtn" style="display: none;">Đăng xuất</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Form đăng nhập -->
+            <div id="loginForm" class="form-container">
+                <h2>Đăng nhập</h2>
+                <form id="loginFormElement">
+                    <input type="email" placeholder="Email" required>
+                    <input type="password" placeholder="Mật khẩu" required>
+                    <button type="submit">Đăng nhập</button>
+                </form>
+            </div>
+
+            <!-- Form đăng ký -->
+            <div id="registerForm" class="form-container" style="display: none;">
+                <h2>Đăng ký</h2>
+                <form id="registerFormElement">
+                    <input type="text" placeholder="Tên người dùng" required>
+                    <input type="email" placeholder="Email" required>
+                    <input type="password" placeholder="Mật khẩu" required>
+                    <input type="number" placeholder="Chiều cao (cm)" required>
+                    <input type="number" placeholder="Cân nặng (kg)" required>
+                    <input type="number" placeholder="Tuổi" required>
+                    <select required>
+                        <option value="">Chọn giới tính</option>
+                        <option value="male">Nam</option>
+                        <option value="female">Nữ</option>
+                        <option value="other">Khác</option>
+                    </select>
+                    <select required>
+                        <option value="">Chọn mức độ hoạt động</option>
+                        <option value="sedentary">Ít vận động</option>
+                        <option value="lightly_active">Vận động nhẹ</option>
+                        <option value="moderately_active">Vận động vừa</option>
+                        <option value="very_active">Vận động nhiều</option>
+                        <option value="extra_active">Vận động rất nhiều</option>
+                    </select>
+                    <button type="submit">Đăng ký</button>
+                </form>
+            </div>
+
+            <!-- Dashboard -->
+            <div id="dashboard" style="display: none;">
+                <div class="stats">
+                    <h2>Thống kê dinh dưỡng hôm nay</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Calories</h3>
+                            <p id="calories">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Protein</h3>
+                            <p id="protein">0g</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Carbs</h3>
+                            <p id="carbs">0g</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Fat</h3>
+                            <p id="fat">0g</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="meals">
+                    <h2>Bữa ăn hôm nay</h2>
+                    <button id="addMealBtn">Thêm bữa ăn</button>
+                    <div id="mealsList"></div>
+                </div>
+            </div>
+
+            <!-- Form thêm bữa ăn -->
+            <div id="addMealForm" class="form-container" style="display: none;">
+                <h2>Thêm bữa ăn</h2>
+                <form id="mealForm">
+                    <input type="text" placeholder="Tên bữa ăn" required>
+                    <select required>
+                        <option value="">Chọn loại bữa ăn</option>
+                        <option value="breakfast">Bữa sáng</option>
+                        <option value="lunch">Bữa trưa</option>
+                        <option value="dinner">Bữa tối</option>
+                        <option value="snack">Ăn nhẹ</option>
+                    </select>
+                    <input type="number" placeholder="Calories" required>
+                    <input type="number" placeholder="Protein (g)" required>
+                    <input type="number" placeholder="Carbs (g)" required>
+                    <input type="number" placeholder="Fat (g)" required>
+                    <textarea placeholder="Mô tả"></textarea>
+                    <button type="submit">Lưu</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html> 
