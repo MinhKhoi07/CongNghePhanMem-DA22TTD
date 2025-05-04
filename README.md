@@ -83,5 +83,5 @@ npm run dev
 ## Tác giả
 
 - Nguyễn Minh Khởi
-- Nguyễn Minh Hương
+- Châu Thị Mỹ Hương
 - Võ Bảo Ngọc 
