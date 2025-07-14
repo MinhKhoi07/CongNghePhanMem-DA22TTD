@@ -4,33 +4,13 @@ const User = require('../models/User');
 const { authenticateToken } = require('../middleware/auth');
 const router = express.Router();
 
-// Áp dụng middleware authentication cho tất cả routes
-router.use(authenticateToken);
+// Route lấy thông tin user hiện tại
+router.get('/me', authenticateToken, async (req, res) => {
+  res.json(req.user);
+});
 
-/**
- * @swagger
- * /api/users/profile:
- *   get:
- *     summary: Lấy thông tin profile của user hiện tại
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Thành công
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 user:
- *                   $ref: '#/components/schemas/User'
- *       401:
- *         description: Không có token hoặc token không hợp lệ
- */
-router.get('/profile', async (req, res) => {
+// Route lấy profile (cần xác thực)
+router.get('/profile', authenticateToken, async (req, res) => {
   try {
     res.json({
       success: true,
@@ -45,65 +25,8 @@ router.get('/profile', async (req, res) => {
   }
 });
 
-/**
- * @swagger
- * /api/users/profile:
- *   put:
- *     summary: Cập nhật thông tin profile
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 description: Tên người dùng
- *               age:
- *                 type: number
- *                 description: Tuổi
- *               gender:
- *                 type: string
- *                 enum: [male, female, other]
- *                 description: Giới tính
- *               height:
- *                 type: number
- *                 description: Chiều cao (cm)
- *               weight:
- *                 type: number
- *                 description: Cân nặng (kg)
- *               activityLevel:
- *                 type: string
- *                 enum: [sedentary, lightly_active, moderately_active, very_active, extremely_active]
- *                 description: Mức độ hoạt động
- *               goal:
- *                 type: string
- *                 enum: [lose_weight, maintain_weight, gain_weight]
- *                 description: Mục tiêu
- *     responses:
- *       200:
- *         description: Cập nhật thành công
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- *                 user:
- *                   $ref: '#/components/schemas/User'
- *       400:
- *         description: Dữ liệu không hợp lệ
- *       401:
- *         description: Không có token hoặc token không hợp lệ
- */
-router.put('/profile', [
+// Route cập nhật profile (cần xác thực)
+router.put('/profile', authenticateToken, [
   body('name').optional().trim().isLength({ min: 2, max: 50 }).withMessage('Tên phải từ 2-50 ký tự'),
   body('age').optional().isInt({ min: 1, max: 120 }).withMessage('Tuổi không hợp lệ'),
   body('height').optional().isFloat({ min: 50, max: 250 }).withMessage('Chiều cao không hợp lệ'),
@@ -124,7 +47,6 @@ router.put('/profile', [
     }
 
     const updateData = { ...req.body };
-    
     // Cập nhật user
     const user = await User.findByIdAndUpdate(
       req.user._id,
@@ -154,56 +76,8 @@ router.put('/profile', [
   }
 });
 
-/**
- * @swagger
- * /api/users/stats:
- *   get:
- *     summary: Lấy thống kê dinh dưỡng của user
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: query
- *         name: startDate
- *         schema:
- *           type: string
- *           format: date
- *         description: Ngày bắt đầu (YYYY-MM-DD)
- *       - in: query
- *         name: endDate
- *         schema:
- *           type: string
- *           format: date
- *         description: Ngày kết thúc (YYYY-MM-DD)
- *     responses:
- *       200:
- *         description: Thành công
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 stats:
- *                   type: object
- *                   properties:
- *                     totalCalories:
- *                       type: number
- *                     totalProtein:
- *                       type: number
- *                     totalCarbs:
- *                       type: number
- *                     totalFat:
- *                       type: number
- *                     averageCalories:
- *                       type: number
- *                     daysTracked:
- *                       type: number
- *       401:
- *         description: Không có token hoặc token không hợp lệ
- */
-router.get('/stats', async (req, res) => {
+// Route lấy thống kê dinh dưỡng (cần xác thực)
+router.get('/stats', authenticateToken, async (req, res) => {
   try {
     const startDate = req.query.startDate ? new Date(req.query.startDate) : new Date(new Date().setDate(new Date().getDate() - 30));
     const endDate = req.query.endDate ? new Date(req.query.endDate) : new Date();
