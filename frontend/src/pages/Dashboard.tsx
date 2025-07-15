@@ -1,5 +1,7 @@
 import React from "react";
 import { Box, Typography, Paper, Grid, Avatar } from "@mui/material";
+import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 import EmojiNatureIcon from '@mui/icons-material/EmojiNature';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
 import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
@@ -29,6 +31,7 @@ const tips = [
 ];
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <Box sx={{ p: 4, bgcolor: '#f5fff7', minHeight: '100vh' }}>
       {/* Banner */}
@@ -40,6 +43,14 @@ const Dashboard: React.FC = () => {
           <Typography variant="h6" color="#388e3c">
             Chào mừng bạn đến với ứng dụng quản lý chế độ ăn!
           </Typography>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{ mt: 3, fontWeight: 600 }}
+            onClick={() => navigate('/meal-input')}
+          >
+            Nhập thông tin bữa ăn
+          </Button>
         </Box>
         <Avatar
           src="https://i.pinimgproxy.com/?url=aHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS8yNTYvMTE3ODcvMTE3ODcyODMucG5n&ts=1752555749&sig=372a2c9711ba89ef38c28f36af8521e0ccfa6c23d7d9180886effbb780bb3534"
