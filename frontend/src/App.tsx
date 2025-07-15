@@ -4,6 +4,7 @@ import { Container, Box } from '@mui/material';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import MealInput from './pages/MealInput';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -27,6 +28,7 @@ const App: React.FC = () => {
                 </PrivateRoute>
               } 
             />
+            <Route path="/meal-input" element={<MealInput />} />
             <Route path="/" element={<Navigate to="/login" />} />
           </Routes>
         </Container>
