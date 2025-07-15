@@ -32,6 +32,16 @@
 docker-compose up --build
 ```
 
+**Lưu ý quan trọng:**
+- KHÔNG sử dụng volume `./frontend:/app` trong docker-compose.yml để tránh code ngoài host ghi đè code trong container.
+- Nếu gặp lỗi frontend không cập nhật (vẫn gọi sai endpoint hoặc không nhận code mới), hãy build lại hoàn toàn không dùng cache:
+
+```bash
+docker-compose down
+docker-compose build --no-cache
+docker-compose up
+```
+
 ### Chạy riêng lẻ
 ```bash
 # Backend
@@ -49,6 +59,10 @@ npm start
 
 Sau khi chạy backend, truy cập Swagger UI tại:
 - http://localhost:3001/api-docs
+
+## Lưu ý endpoint đăng ký
+- Endpoint đăng ký đúng là: `POST /api/auth/register`
+- Nếu frontend gọi `/api/users/register` sẽ bị lỗi 404.
 
 ## Cấu Trúc Dự Án
 
