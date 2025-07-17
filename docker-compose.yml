@@ -49,17 +49,17 @@ services:
       - "3000:3000"
     environment:
       REACT_APP_API_URL: http://localhost:3001/api
+      CHOKIDAR_USEPOLLING: true
     depends_on:
       - backend
     networks:
       - diet_network
-    # volumes:
-    #   - ./frontend:/app
-    #   - /app/node_modules
+    volumes:
+      - ./frontend:/app
 
 volumes:
   mongodb_data:
 
 networks:
   diet_network:
-    driver: bridge 
+    driver: bridge
