@@ -54,8 +54,8 @@ services:
       - backend
     networks:
       - diet_network
-    volumes:
-      - ./frontend:/app
+    # volumes:
+    #   - ./frontend:/app
 
 volumes:
   mongodb_data:
