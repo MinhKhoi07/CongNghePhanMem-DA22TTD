@@ -1,42 +1,9 @@
-const express = require('express');
-const { body, validationResult } = require('express-validator');
-const User = require('../models/User');
-const { authenticateToken } = require('../middleware/auth');
-const router = express.Router();
-
-// Route lấy thông tin user hiện tại
-router.get('/me', authenticateToken, async (req, res) => {
-  res.json(req.user);
-});
-
-// Route lấy profile (cần xác thực)
-router.get('/profile', authenticateToken, async (req, res) => {
-  try {
-    res.json({
-      success: true,
-      user: req.user
-    });
-  } catch (error) {
-    console.error('Lỗi lấy profile:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Lỗi server nội bộ'
-    });
-  }
-});
-
-// Route cập nhật profile (cần xác thực)
-router.put('/profile', authenticateToken, [
-  body('name').optional().trim().isLength({ min: 2, max: 50 }).withMessage('Tên phải từ 2-50 ký tự'),
-  body('age').optional().isInt({ min: 1, max: 120 }).withMessage('Tuổi không hợp lệ'),
-  body('height').optional().isFloat({ min: 50, max: 250 }).withMessage('Chiều cao không hợp lệ'),
-  body('weight').optional().isFloat({ min: 20, max: 300 }).withMessage('Cân nặng không hợp lệ'),
-  body('gender').optional().isIn(['male', 'female', 'other']).withMessage('Giới tính không hợp lệ'),
-  body('activityLevel').optional().isIn(['sedentary', 'lightly_active', 'moderately_active', 'very_active', 'extremely_active']).withMessage('Mức độ hoạt động không hợp lệ'),
-  body('goal').optional().isIn(['lose_weight', 'maintain_weight', 'gain_weight']).withMessage('Mục tiêu không hợp lệ')
+// New route for changing password
+router.put('/change-password', authenticateToken, [
+  body('currentPassword').notEmpty().withMessage('Mật khẩu hiện tại là bắt buộc'),
+  body('newPassword').isLength({ min: 6 }).withMessage('Mật khẩu mới phải có ít nhất 6 ký tự')
 ], async (req, res) => {
   try {
-    // Kiểm tra validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -46,29 +13,34 @@ router.put('/profile', authenticateToken, [
       });
     }
 
-    const updateData = { ...req.body };
-    // Cập nhật user
-    const user = await User.findByIdAndUpdate(
-      req.user._id,
-      updateData,
-      { new: true, runValidators: true }
-    ).select('-password');
+    const { currentPassword, newPassword } = req.body;
+    const user = await User.findById(req.user._id);
 
-    // Tính lại BMR và TDEE nếu có thay đổi thông tin cơ thể
-    if (updateData.age || updateData.height || updateData.weight || updateData.gender || updateData.activityLevel) {
-      user.bmr = user.calculateBMR();
-      user.tdee = user.calculateTDEE();
-      await user.save();
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Người dùng không tồn tại'
+      });
     }
+
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: 'Mật khẩu hiện tại không đúng'
+      });
+    }
+
+    user.password = newPassword;
+    await user.save();
 
     res.json({
       success: true,
-      message: 'Cập nhật profile thành công',
-      user
+      message: 'Đổi mật khẩu thành công'
     });
 
   } catch (error) {
-    console.error('Lỗi cập nhật profile:', error);
+    console.error('Lỗi đổi mật khẩu:', error);
     res.status(500).json({
       success: false,
       message: 'Lỗi server nội bộ'

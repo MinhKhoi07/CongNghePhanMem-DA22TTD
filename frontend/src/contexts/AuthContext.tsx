@@ -5,6 +5,12 @@ interface User {
   id: string;
   name: string;
   email: string;
+  age?: number;
+  gender?: 'male' | 'female' | 'other';
+  height?: number;
+  weight?: number;
+  activityLevel?: 'sedentary' | 'lightly_active' | 'moderately_active' | 'very_active' | 'extremely_active';
+  goal?: 'lose_weight' | 'maintain_weight' | 'gain_weight';
 }
 
 interface AuthContextType {

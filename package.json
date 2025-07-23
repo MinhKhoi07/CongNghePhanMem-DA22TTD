@@ -1,0 +1,20 @@
+{
+  "name": "congnghephanmem-da22ttd",
+  "version": "1.0.0",
+  "description": "Ứng dụng web quản lý chế độ ăn với RESTful API, Docker và Swagger documentation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MinhKhoi07/CongNghePhanMem-DA22TTD.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MinhKhoi07/CongNghePhanMem-DA22TTD/issues"
+  },
+  "homepage": "https://github.com/MinhKhoi07/CongNghePhanMem-DA22TTD#readme"
+}

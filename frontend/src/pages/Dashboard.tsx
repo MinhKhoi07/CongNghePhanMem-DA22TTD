@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Typography, Paper, Grid, Avatar } from "@mui/material";
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
 import EmojiNatureIcon from '@mui/icons-material/EmojiNature';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
@@ -36,23 +35,6 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  // State cho form
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: ''
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Gửi dữ liệu lên backend hoặc xử lý tại đây
-    alert(`Đã lưu: ${form.name}, ${form.email}, ${form.phone}`);
-  };
-
   return (
     <Box sx={{ p: 4, bgcolor: '#f5fff7', minHeight: '100vh' }}>
       {/* Quản lý thông tin người dùng */}
@@ -78,52 +60,6 @@ const Dashboard: React.FC = () => {
           <Button variant="outlined" color="warning" sx={{ mr: 2 }} onClick={() => navigate('/change-password')}>Đổi mật khẩu</Button>
           <Button variant="contained" color="error" onClick={logout}>Đăng xuất</Button>
         </Box>
-      </Paper>
-
-      {/* Form cập nhật thông tin */}
-      <Paper elevation={2} sx={{ mb: 3, p: 3, bgcolor: '#fff' }}>
-        <Typography variant="h6" fontWeight={700} color="#1976d2" mb={2}>
-          Cập nhật thông tin cá nhân
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                label="Họ tên"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                label="Email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                label="Số điện thoại"
-                name="phone"
-                value={form.phone}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary">
-                Lưu thông tin
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
       </Paper>
 
       {/* Banner */}

@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import MealInput from './pages/MealInput';
+import Profile from './pages/Profile';
+import ChangePassword from './pages/ChangePassword';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -28,7 +30,23 @@ const App: React.FC = () => {
                 </PrivateRoute>
               } 
             />
+            <Route 
+              path="/profile" 
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              } 
+            />
             <Route path="/meal-input" element={<MealInput />} />
+            <Route 
+              path="/change-password" 
+              element={
+                <PrivateRoute>
+                  <ChangePassword />
+                </PrivateRoute>
+              } 
+            />
             <Route path="/" element={<Navigate to="/login" />} />
           </Routes>
         </Container>
