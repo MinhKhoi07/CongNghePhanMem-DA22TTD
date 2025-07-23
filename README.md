@@ -107,6 +107,7 @@ npm start
 - Nếu có ý kiến, bug hoặc muốn đóng góp, hãy tạo issue hoặc pull request trên GitHub.
 - Liên hệ admin qua email: khoiminh.071204@gmail.com
 
+
 ---
 
-> © 2025 - Ứng dụng quản lý chế độ ăn - MinhKhoi07, Châu Thị Mỹ Hương, Võ Bảo Ngọc
+> © 2025 - Ứng dụng quản lý chế độ ăn - MinhKhoi07, myhuong27, baongoc1710
