@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import MealInput from './pages/MealInput';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import ChatBot from './components/ChatBot';
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -33,6 +34,7 @@ const App: React.FC = () => {
           </Routes>
         </Container>
       </Box>
+      <ChatBot />
     </AuthProvider>
   );
 };
