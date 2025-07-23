@@ -105,7 +105,7 @@ npm start
 
 ## 💡 Đóng Góp & Liên Hệ
 - Nếu có ý kiến, bug hoặc muốn đóng góp, hãy tạo issue hoặc pull request trên GitHub.
-- Liên hệ admin qua email hoặc chatbot trong ứng dụng.
+- Liên hệ admin qua email: khoiminh.071204@gmail.comcom
 
 ---
 
