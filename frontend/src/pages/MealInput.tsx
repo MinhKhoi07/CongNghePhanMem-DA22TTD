@@ -24,6 +24,7 @@ const LOCAL_KEY = 'meal_history_grouped';
 
 const MealInput: React.FC = () => {
   const [meal, setMeal] = useState<MealItem>({ name: '', quantity: 1, caloriesPerUnit: 0 });
+  const [loadingCalo, setLoadingCalo] = useState(false);
   const [mealType, setMealType] = useState<string>('breakfast');
   const [totalCalories, setTotalCalories] = useState<number | null>(null);
   const [history, setHistory] = useState<MealGroup[]>([]);
@@ -36,7 +37,40 @@ const MealInput: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setMeal({ ...meal, [name]: name === 'name' ? value : Number(value) });
+    if (name === 'name') {
+      setMeal({ ...meal, name: value });
+      if (value.trim().length > 2) {
+        fetchCalories(value.trim());
+      }
+    } else {
+      setMeal({ ...meal, [name]: Number(value) });
+    }
+  };
+
+  // Nutritionix API lấy calo
+  const fetchCalories = async (foodName: string) => {
+    setLoadingCalo(true);
+    try {
+      const res = await fetch(
+        `https://trackapi.nutritionix.com/v2/natural/nutrients`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-app-id': 'demo_app_id', // Thay bằng app_id thật nếu có
+            'x-app-key': 'demo_app_key', // Thay bằng app_key thật nếu có
+          },
+          body: JSON.stringify({ query: foodName })
+        }
+      );
+      const data = await res.json();
+      if (data.foods && data.foods.length > 0) {
+        setMeal(prev => ({ ...prev, caloriesPerUnit: Math.round(data.foods[0].nf_calories) }));
+      }
+    } catch (err) {
+      // Có thể xử lý lỗi ở đây
+    }
+    setLoadingCalo(false);
   };
 
   const handleMealTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -116,7 +150,9 @@ const MealInput: React.FC = () => {
             onChange={handleChange}
             required
             style={{ width: '100%', padding: 8 }}
+            readOnly={loadingCalo}
           />
+          {loadingCalo && <span style={{ marginLeft: 8, color: '#888' }}>Đang lấy dữ liệu calo...</span>}
         </div>
         <Button type="submit" variant="contained" color="success" sx={{ padding: '8px 16px' }}>THÊM MÓN ĂN</Button>
       </form>

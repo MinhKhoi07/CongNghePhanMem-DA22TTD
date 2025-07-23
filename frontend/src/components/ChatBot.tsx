@@ -55,6 +55,7 @@ const ChatBot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     { from: 'bot', text: 'Xin chào! Tôi là trợ lý dinh dưỡng. Bạn muốn hỏi gì?' }
   ]);
+  const [loadingBot, setLoadingBot] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -63,20 +64,60 @@ const ChatBot: React.FC = () => {
     }
   }, [messages, open]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim()) return;
     const userMsg = { from: 'user' as const, text: input };
     setMessages(msgs => [...msgs, userMsg]);
-    // Rule-based reply
+    setLoadingBot(true);
     const lower = input.toLowerCase();
-    const found = rules.find(r => lower.includes(r.keyword));
-    setTimeout(() => {
+    // Nếu người dùng hỏi về calo món ăn
+    if (lower.includes('calo') || lower.includes('bao nhiêu calo') || lower.match(/calo.*(là|của)/)) {
+      // Tìm tên món ăn trong câu hỏi
+      let foodName = lower.replace(/calo|của|là|bao nhiêu|\?|\./g, '').trim();
+      if (!foodName) foodName = input.trim();
+      const caloMsg = await fetchCaloriesBot(foodName);
       setMessages(msgs => [
         ...msgs,
-        { from: 'bot', text: found ? found.answer : fallback }
+        { from: 'bot', text: caloMsg }
       ]);
-    }, 500);
+    } else {
+      // Rule-based reply
+      const found = rules.find(r => lower.includes(r.keyword));
+      setTimeout(() => {
+        setMessages(msgs => [
+          ...msgs,
+          { from: 'bot', text: found ? found.answer : fallback }
+        ]);
+      }, 500);
+    }
     setInput('');
+    setLoadingBot(false);
+  };
+
+  // Nutritionix API cho ChatBot
+  const fetchCaloriesBot = async (foodName: string) => {
+    try {
+      const res = await fetch(
+        `https://trackapi.nutritionix.com/v2/natural/nutrients`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-app-id': 'demo_app_id', // Thay bằng app_id thật nếu có
+            'x-app-key': 'demo_app_key', // Thay bằng app_key thật nếu có
+          },
+          body: JSON.stringify({ query: foodName })
+        }
+      );
+      const data = await res.json();
+      if (data.foods && data.foods.length > 0) {
+        return `Món "${foodName}" có khoảng ${Math.round(data.foods[0].nf_calories)} kcal/phần.`;
+      } else {
+        return `Xin lỗi, tôi không tìm thấy dữ liệu calo cho món "${foodName}".`;
+      }
+    } catch (err) {
+      return 'Xin lỗi, tôi không thể lấy dữ liệu calo lúc này.';
+    }
   };
 
   return (
@@ -119,6 +160,13 @@ const ChatBot: React.FC = () => {
                     </Typography>
                   </Box>
                 ))}
+                {loadingBot && (
+                  <Box sx={{ textAlign: 'left', mb: 1 }}>
+                    <Typography variant="body2" sx={{ display: 'inline-block', bgcolor: '#fffde7', color: 'text.secondary', px: 1.5, py: 0.5, borderRadius: 2 }}>
+                      Đang phân tích dữ liệu calo...
+                    </Typography>
+                  </Box>
+                )}
                 <div ref={bottomRef} />
               </Box>
               <Box sx={{ display: 'flex', gap: 1 }}>
