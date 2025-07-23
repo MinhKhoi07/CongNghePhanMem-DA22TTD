@@ -8,6 +8,7 @@ import LocalDiningIcon from '@mui/icons-material/LocalDining';
 import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAuth } from '../contexts/AuthContext';
+import BroccoliIcon from '../assets/broccoli.png';
 
 const tips = [
   {
@@ -145,7 +146,7 @@ const Dashboard: React.FC = () => {
           </Button>
         </Box>
         <Avatar
-          src="https://i.pinimgproxy.com/?url=aHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS8yNTYvMTE3ODcvMTE3ODcyODMucG5n&ts=1752555749&sig=372a2c9711ba89ef38c28f36af8521e0ccfa6c23d7d9180886effbb780bb3534"
+          src={BroccoliIcon}
           alt="Healthy Icon"
           sx={{ width: 160, height: 160, boxShadow: 3, bgcolor: 'white' }}
         />

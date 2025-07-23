@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface MealItem {
   name: string;
@@ -26,6 +27,7 @@ const MealInput: React.FC = () => {
   const [mealType, setMealType] = useState<string>('breakfast');
   const [totalCalories, setTotalCalories] = useState<number | null>(null);
   const [history, setHistory] = useState<MealGroup[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const data = localStorage.getItem(LOCAL_KEY);
@@ -63,6 +65,14 @@ const MealInput: React.FC = () => {
 
   return (
     <div style={{ maxWidth: 600, margin: '0 auto', padding: 24 }}>
+      <Button
+        variant="outlined"
+        color="primary"
+        sx={{ mb: 2, fontWeight: 600 }}
+        onClick={() => navigate('/dashboard')}
+      >
+        Quay về trang chủ
+      </Button>
       <h2>Nhập thông tin bữa ăn</h2>
       <form onSubmit={handleSubmit} style={{ marginBottom: 32 }}>
         <div style={{ marginBottom: 12 }}>
