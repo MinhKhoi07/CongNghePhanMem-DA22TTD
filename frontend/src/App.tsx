@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import MealInput from './pages/MealInput';
+import Account from './pages/Account';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ChatBot from './components/ChatBot';
 
@@ -30,6 +31,7 @@ const App: React.FC = () => {
               } 
             />
             <Route path="/meal-input" element={<MealInput />} />
+            <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} />
             <Route path="/" element={<Navigate to="/login" />} />
           </Routes>
         </Container>

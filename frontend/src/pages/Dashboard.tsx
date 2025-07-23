@@ -75,56 +75,15 @@ const Dashboard: React.FC = () => {
           </Box>
         </Box>
         <Box>
-          <Button variant="outlined" color="primary" sx={{ mr: 2 }} onClick={() => navigate('/profile')}>Chỉnh sửa</Button>
-          <Button variant="outlined" color="warning" sx={{ mr: 2 }} onClick={() => navigate('/change-password')}>Đổi mật khẩu</Button>
-          <Button variant="contained" color="error" onClick={logout}>Đăng xuất</Button>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ fontWeight: 600 }}
+            onClick={() => navigate('/account')}
+          >
+            Quản lý tài khoản
+          </Button>
         </Box>
-      </Paper>
-
-      {/* Form cập nhật thông tin */}
-      <Paper elevation={2} sx={{ mb: 3, p: 3, bgcolor: '#fff' }}>
-        <Typography variant="h6" fontWeight={700} color="#1976d2" mb={2}>
-          Cập nhật thông tin cá nhân
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                label="Họ tên"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                label="Email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                label="Số điện thoại"
-                name="phone"
-                value={form.phone}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary">
-                Lưu thông tin
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
       </Paper>
 
       {/* Banner */}
