@@ -105,7 +105,7 @@ const foodSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['vegetables', 'fruits', 'grains', 'proteins', 'dairy', 'fats', 'beverages', 'snacks'],
+    enum: ['vegetables', 'fruits', 'grains', 'proteins', 'dairy', 'fats', 'beverages', 'snacks', 'Trái cây', 'Rau củ', 'Thịt', 'Cá', 'Sữa', 'Ngũ cốc', 'Đồ uống', 'Khác'],
     default: 'snacks'
   },
   description: {

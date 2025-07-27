@@ -9,6 +9,9 @@ import Account from './pages/Account';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminUsers from './pages/AdminUsers';
+import AdminFoods from './pages/AdminFoods';
+import AdminStats from './pages/AdminStats';
+import AdminSettings from './pages/AdminSettings';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ChatBot from './components/ChatBot';
 
@@ -28,6 +31,9 @@ const App: React.FC = () => {
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/foods" element={<AdminFoods />} />
+            <Route path="/admin/stats" element={<AdminStats />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
             <Route 
               path="/dashboard" 
               element={
