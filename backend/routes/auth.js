@@ -317,4 +317,108 @@ router.get('/profile', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/auth/admin/login:
+ *   post:
+ *     summary: Đăng nhập admin
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: Tên đăng nhập admin
+ *               password:
+ *                 type: string
+ *                 description: Mật khẩu admin
+ *     responses:
+ *       200:
+ *         description: Đăng nhập thành công
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 admin:
+ *                   type: object
+ *                 token:
+ *                   type: string
+ *       401:
+ *         description: Thông tin đăng nhập không đúng
+ */
+router.post('/admin/login', [
+  body('username').notEmpty().withMessage('Tên đăng nhập là bắt buộc'),
+  body('password').notEmpty().withMessage('Mật khẩu là bắt buộc')
+], async (req, res) => {
+  try {
+    // Kiểm tra validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Dữ liệu không hợp lệ',
+        errors: errors.array()
+      });
+    }
+
+    const { username, password } = req.body;
+
+    // Kiểm tra thông tin admin (có thể lưu trong env hoặc database)
+    const adminCredentials = {
+      username: process.env.ADMIN_USERNAME || 'admin',
+      password: process.env.ADMIN_PASSWORD || 'admin123'
+    };
+
+    if (username !== adminCredentials.username || password !== adminCredentials.password) {
+      return res.status(401).json({
+        success: false,
+        message: 'Tên đăng nhập hoặc mật khẩu không đúng'
+      });
+    }
+
+    // Tạo JWT token cho admin
+    const token = jwt.sign(
+      { 
+        userId: 'admin',
+        username: username,
+        role: 'admin'
+      },
+      process.env.JWT_SECRET || 'your_jwt_secret_key_here',
+      { expiresIn: '24h' }
+    );
+
+    const adminData = {
+      username: username,
+      role: 'admin',
+      loginTime: new Date()
+    };
+
+    res.json({
+      success: true,
+      message: 'Đăng nhập admin thành công',
+      admin: adminData,
+      token
+    });
+
+  } catch (error) {
+    console.error('Lỗi đăng nhập admin:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Lỗi server nội bộ'
+    });
+  }
+});
+
 module.exports = router; 

@@ -9,6 +9,7 @@ import EmojiFoodBeverageIcon from '@mui/icons-material/EmojiFoodBeverage';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAuth } from '../contexts/AuthContext';
 import BroccoliIcon from '../assets/broccoli.png';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const tips = [
   {
@@ -55,11 +56,15 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <Box sx={{ p: 4, bgcolor: '#f5fff7', minHeight: '100vh' }}>
+    <Box sx={{ p: 4, bgcolor: 'linear-gradient(120deg, #e0ffe0 0%, #f5fff7 100%)', minHeight: '100vh' }}>
+      {/* Quote động viên */}
+      <Typography variant="subtitle1" color="#1976d2" fontStyle="italic" mb={2} align="center">
+        “Sức khỏe là vàng – Hãy bắt đầu từ bữa ăn mỗi ngày!”
+      </Typography>
       {/* Quản lý thông tin người dùng */}
-      <Paper elevation={2} sx={{ mb: 3, p: 3, bgcolor: '#e3f2fd', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <Paper elevation={2} sx={{ mb: 3, p: 3, bgcolor: '#e3f2fd', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderRadius: 3, boxShadow: 4 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar sx={{ bgcolor: "#1976d2", mr: 2 }}>
+          <Avatar sx={{ bgcolor: "#1976d2", mr: 2, width: 56, height: 56, fontSize: 32, boxShadow: 2 }}>
             {user?.name ? user.name[0].toUpperCase() : "?"}
           </Avatar>
           <Box>
@@ -78,7 +83,8 @@ const Dashboard: React.FC = () => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ fontWeight: 600 }}
+            startIcon={<AccountCircleIcon />}
+            sx={{ fontWeight: 600, borderRadius: 3, boxShadow: 3, px: 3, py: 1, fontSize: 16 }}
             onClick={() => navigate('/account')}
           >
             Quản lý tài khoản
@@ -87,7 +93,7 @@ const Dashboard: React.FC = () => {
       </Paper>
 
       {/* Banner */}
-      <Paper elevation={3} sx={{ mb: 4, p: 4, background: 'linear-gradient(90deg, #a8e063 0%, #f6ffb8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <Paper elevation={3} sx={{ mb: 4, p: 4, background: 'linear-gradient(90deg, #a8e063 0%, #f6ffb8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderRadius: 3, boxShadow: 4 }}>
         <Box>
           <Typography variant="h3" fontWeight={700} color="#388e3c" gutterBottom>
             Ăn Uống Lành Mạnh, Sống Vui Mỗi Ngày!
@@ -98,7 +104,7 @@ const Dashboard: React.FC = () => {
           <Button
             variant="contained"
             color="success"
-            sx={{ mt: 3, fontWeight: 600 }}
+            sx={{ mt: 3, fontWeight: 600, borderRadius: 3, boxShadow: 3, px: 3, py: 1, fontSize: 16 }}
             onClick={() => navigate('/meal-input')}
           >
             Nhập thông tin bữa ăn
@@ -118,7 +124,7 @@ const Dashboard: React.FC = () => {
       <Grid container spacing={3}>
         {tips.map((tip, idx) => (
           <Grid item xs={12} sm={6} md={3} key={idx}>
-            <Paper elevation={2} sx={{ p: 3, textAlign: 'center', borderRadius: 3, bgcolor: '#fffde7' }}>
+            <Paper elevation={2} sx={{ p: 3, textAlign: 'center', borderRadius: 3, bgcolor: '#fffde7', transition: 'transform 0.2s, box-shadow 0.2s', '&:hover': { transform: 'scale(1.05)', boxShadow: 6, bgcolor: '#e6ffe6' } }}>
               <Box mb={1}>{tip.icon}</Box>
               <Typography variant="subtitle1" fontWeight={700} color="#388e3c">
                 {tip.title}

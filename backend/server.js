@@ -74,6 +74,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/foods', require('./routes/foods'));
 app.use('/api/meals', require('./routes/meals'));
 app.use('/api/diets', require('./routes/diets'));
+app.use('/api/admin', require('./routes/admin'));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
